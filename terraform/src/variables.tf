@@ -13,3 +13,7 @@ variable "configs_path" {}
 variable "region" {}
 
 data "aws_caller_identity" "current" {}
+
+variable "bucketArn" {}
+
+variable "bucketName" {}
