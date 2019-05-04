@@ -1,0 +1,16 @@
+{
+  "name": "terraform",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "init": "terraform init src",
+    "plan": "terraform plan -var-file envs/terraform.tfvars src",
+    "app": "terraform apply -var-file envs/terraform.tfvars -auto-approve src",
+    "destroy": "terraform destroy -var-file envs/terraform.tfvars src"
+  },
+  "dependencies": {
+    "@types/node": "^12.0.0",
+    "aws-sdk": "^2.449.0"
+  }
+}
