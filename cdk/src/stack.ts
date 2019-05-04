@@ -11,11 +11,10 @@ export class CdkStack extends Stack {
       functionName: 'ipa-converter',
       runtime: Runtime.NodeJS810,
       handler: 'index.handler',
-      code: Code.asset('./dist/lambda'),
+      code: Code.asset('./dummy.zip'),
     });
 
     const api = new RestApi(this, 'ipa', {});
     api.root.addMethod('GET', new LambdaIntegration(backend));
-
   }
 }
