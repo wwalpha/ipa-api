@@ -41,8 +41,8 @@ resource "aws_lambda_function" "lambda" {
   runtime       = "nodejs8.10"
 
   tags = {
-    EnglandTable = "${aws_dynamodb_table.england.id}"
     AmericaTable = "${aws_dynamodb_table.america.id}"
+    EnglandTable = "${aws_dynamodb_table.england.id}"
     SymbolTable  = "${aws_dynamodb_table.symbol.id}"
   }
 

@@ -66,6 +66,10 @@ export const regist = async (fileName: string, tableName: string, maxThread: num
   const items: any = [];
 
   for (const idx in lines) {
+    if (lines[idx].startsWith(';;;')) {
+      continue;
+    }
+
     if (invokes.length === maxThread) {
       await exec(invokes);
 
@@ -85,15 +89,15 @@ export const regist = async (fileName: string, tableName: string, maxThread: num
       items.length = 0;
     }
 
-    const ipa = lines[idx].split(' ');
-    const word = ipa.shift();
+    // space * 2
+    const ipa = lines[idx].split('  ');
 
-    console.log(word, ipa.join(' '))
+    console.log(ipa);
     items.push({
       PutRequest: {
         Item: {
-          id: word,
-          ipa: ipa.join(' '),
+          id: ipa[0],
+          ipa: ipa[1],
         },
       },
     });
@@ -131,6 +135,6 @@ const scan = async (tableName: string, startKey?: Key): Promise<number> => {
 };
 
 
-// regist('america.dict', 'ipa-America', 10);
-// regist('england.dict', 'ipa-England', 10);
-regist('cmudict.symbols', 'ipa-Symbol', 10);
+// regist('america.dict', 'ipa-america', 10);
+// regist('england.dict', 'ipa-england', 10);
+regist('cmudict.symbols', 'ipa-symbol', 10);
