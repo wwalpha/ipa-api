@@ -41,7 +41,7 @@ module.exports = {
     new CopyWebpackPlugin(
       [
         {
-          from: 'src/appspec.yml',
+          from: 'appspec.yml',
           to: '.',
         },
       ],

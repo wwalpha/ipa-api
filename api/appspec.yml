@@ -1,0 +1,14 @@
+version: 0.0
+
+Resources:
+  - ipaFunction:
+      type: "AWS::Lambda::Function"
+      properties:
+        name: ipa-converter
+        alias: ipa-converter
+        currentversion: $LATEST
+        targetversion: $LATEST
+
+# Hooks:
+#   - BeforeAllowTraffic: "LambdaFunctionToValidateBeforeTrafficShift"
+#   - AfterAllowTraffic: "LambdaFunctionToValidateAfterTrafficShift"

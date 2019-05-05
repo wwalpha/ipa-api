@@ -12,7 +12,7 @@ phases:
       - npm install  
   post_build:
     commands:
-      - npm run deploy
+      - npm run build
 artifacts:
   # base-directory: 'api/dist'
   files:
