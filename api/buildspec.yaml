@@ -14,7 +14,8 @@ phases:
     commands:
       - npm run deploy
 artifacts:
+  base-directory: 'api/dist'
   files:
-    - 'api/dist/index.zip'
-  name: test.zip
+    - 'index.zip'
+  name: myname-$(date +%Y-%m-%d) 
   discard-paths: true
