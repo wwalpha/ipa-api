@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "build": "webpack --config configs/webpack.prod.js",
-    "deploy": "yarn build && aws lambda update-function-code --function-name ipa-converter --zip-file fileb://./dist/index.zip"
+    "deploy": "npm run build && aws lambda update-function-code --function-name ipa-converter --zip-file fileb://./dist/index.zip"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.25",
