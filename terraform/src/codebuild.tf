@@ -22,10 +22,10 @@ resource "aws_codebuild_project" "cb_project" {
     type = "CODEPIPELINE"
   }
 
-  cache {
-    type     = "S3"
-    location = "${var.bucketName}"
-  }
+  # cache {
+  #   type     = "S3"
+  #   location = "${var.bucketName}"
+  # }
 
   environment {
     compute_type                = "BUILD_GENERAL1_SMALL"
@@ -43,12 +43,10 @@ resource "aws_codebuild_project" "cb_project" {
     #   "type"  = "PARAMETER_STORE"
     # }
   }
-
   source {
     type      = "CODEPIPELINE"
-    buildspec = "api/buildspec.yaml"
+    buildspec = "api/buildspec.yml"
   }
-
   tags = {
     "Environment" = "Test"
   }

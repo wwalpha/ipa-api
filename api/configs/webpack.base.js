@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const ZipPlugin = require('zip-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = {
   target: 'node',
@@ -37,6 +38,14 @@ module.exports = {
       debug: false,
     }),
     new CleanWebpackPlugin(),
+    new CopyWebpackPlugin(
+      [
+        {
+          from: 'src/appspec.yml',
+          to: '.',
+        },
+      ],
+    ),
     new ZipPlugin({
       // OPTIONAL: defaults to the Webpack output path (above)
       // can be relative (to Webpack output path) or absolute
