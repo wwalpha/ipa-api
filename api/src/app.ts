@@ -1,12 +1,17 @@
-import { DocumentClient, GetItemOutput, ScanOutput, AttributeMap } from "aws-sdk/clients/dynamodb";
+import { DynamoDB, AWSError, Lambda } from "aws-sdk";
 import { Request, SymbolItem, WordItem } from './index';
 import { PromiseResult } from "aws-sdk/lib/request";
-import { AWSError } from "aws-sdk/lib/error";
 
-export const app = async (dbClient: DocumentClient, symbolItems: SymbolItem[], event: Request): Promise<any> => {
-  let word: PromiseResult<GetItemOutput, AWSError>;
+let dbClient: DynamoDB.DocumentClient;
+let symbolItems: SymbolItem[];
+
+export const app = async (event: Request): Promise<any> => {
+  let word: PromiseResult<DynamoDB.GetItemOutput, AWSError>;
   const americaTable = process.env.AmericaTable as string;
   const englandTable = process.env.EnglandTable as string;
+
+  // 初期化
+  await init();
 
   // America
   if (event.lan && event.lan === '2') {
@@ -40,8 +45,6 @@ export const app = async (dbClient: DocumentClient, symbolItems: SymbolItem[], e
     result.push(target.ipa);
   })
 
-  console.log(result.join(''));
-
   return result.join('');
 }
 
@@ -51,9 +54,28 @@ export const app = async (dbClient: DocumentClient, symbolItems: SymbolItem[], e
  * @param tableName テーブル名
  * @param word 単語
  */
-const getWord = async (dbClient: DocumentClient, tableName: string, word: string) => dbClient.get({
+const getWord = async (dbClient: DynamoDB.DocumentClient, tableName: string, word: string) => dbClient.get({
   TableName: tableName,
   Key: {
     'word': word.toUpperCase(),
   }
 }).promise();
+
+
+/**
+ * 初期化
+ */
+const init = async () => {
+  if (!dbClient) {
+    dbClient = new DynamoDB.DocumentClient({
+      region: process.env.AWS_DEFAULT_REGION,
+    });
+
+    // Symbols情報を取得する
+    const result = await dbClient.scan({
+      TableName: process.env.SymbolTable as string,
+    }).promise();
+
+    symbolItems = result.Items as unknown as SymbolItem[];
+  }
+}

@@ -4,16 +4,12 @@ phases:
   pre_build:
     commands:
       - cd api
-      - echo pwd
   build:
     commands:
       - npm install  
-  # post_build:
-  #   commands:
-  #     - echo Build completed on `date`
-  #     - echo Pushing the Docker image...
-  #     - echo docker push ${REPOSITORY_URI}/$IMAGE_REPO_NAME:$IMAGE_TAG
-  #     - docker push ${REPOSITORY_URI}/$IMAGE_REPO_NAME:$IMAGE_TAG
+  post_build:
+    commands:
+      - aws lambda update-function-code --function-name ipa-converter --zip-file file:///./dist/index.zip
 artifacts:
   files:
     - '**/*'

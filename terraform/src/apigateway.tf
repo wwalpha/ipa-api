@@ -37,13 +37,15 @@ resource "aws_lambda_function" "lambda" {
   filename      = "dummy.zip"
   function_name = "ipa-converter"
   role          = "${aws_iam_role.role.arn}"
-  handler       = "index.hanlder"
+  handler       = "index.handler"
   runtime       = "nodejs8.10"
 
-  tags = {
-    AmericaTable = "${aws_dynamodb_table.america.id}"
-    EnglandTable = "${aws_dynamodb_table.england.id}"
-    SymbolTable  = "${aws_dynamodb_table.symbol.id}"
+  environment {
+    variables = {
+      AmericaTable = "${aws_dynamodb_table.america.id}"
+      EnglandTable = "${aws_dynamodb_table.england.id}"
+      SymbolTable  = "${aws_dynamodb_table.symbol.id}"
+    }
   }
 
   # The filebase64sha256() function is available in Terraform 0.11.12 and later
@@ -54,7 +56,7 @@ resource "aws_lambda_function" "lambda" {
 
 # IAM
 resource "aws_iam_role" "role" {
-  name = "myrole"
+  name = "ipa-lambda-role"
 
   assume_role_policy = <<POLICY
 {
@@ -65,10 +67,77 @@ resource "aws_iam_role" "role" {
       "Principal": {
         "Service": "lambda.amazonaws.com"
       },
-      "Effect": "Allow",
-      "Sid": ""
+      "Effect": "Allow"
     }
   ]
 }
 POLICY
+}
+
+resource "aws_cloudwatch_log_group" "example" {
+  name              = "/aws/lambda/${aws_lambda_function.lambda.function_name}"
+  retention_in_days = 14
+}
+
+resource "aws_iam_policy" "lambda_logging" {
+  name        = "logging"
+  path        = "/"
+  description = "IAM policy for logging from a lambda"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": "arn:aws:logs:*:*:*",
+      "Effect": "Allow"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_policy" "db_access" {
+  name        = "db_access"
+  path        = "/"
+  description = "IAM policy for logging from a lambda"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:PutItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:GetItem",
+        "dynamodb:Scan",
+        "dynamodb:Query",
+        "dynamodb:UpdateItem"
+      ],
+      "Resource": [
+        "arn:aws:dynamodb:${var.region}:*:table/*/index/*",
+        "arn:aws:dynamodb:${var.region}:*:table/*"
+      ],
+      "Effect": "Allow"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_logs" {
+  role       = "${aws_iam_role.role.name}"
+  policy_arn = "${aws_iam_policy.lambda_logging.arn}"
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_db_access" {
+  role       = "${aws_iam_role.role.name}"
+  policy_arn = "${aws_iam_policy.db_access.arn}"
 }

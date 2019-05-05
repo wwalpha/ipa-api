@@ -2,8 +2,11 @@ const webpack = require('webpack');
 const merge = require('webpack-merge');
 const baseConfig = require('./webpack.base');
 
-const dev = {
+const prod = {
   mode: 'production',
+  optimization: {
+    minimize: false
+  },
   plugins: [
     new webpack.LoaderOptionsPlugin({
       debug: false,
@@ -11,4 +14,4 @@ const dev = {
   ],
 };
 
-module.exports = merge(baseConfig, dev);
+module.exports = merge(baseConfig, prod);

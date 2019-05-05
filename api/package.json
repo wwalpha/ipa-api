@@ -4,12 +4,11 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "build": "webpack --config configs/webpack.prod.js"
+    "build": "webpack --config configs/webpack.prod.js",
+    "deploy": "aws lambda update-function-code --function-name ipa-converter --zip-file fileb://./dist/index.zip"
   },
   "devDependencies": {
-    "@types/aws-lambda": "^8.10.25",
     "@types/node": "^12.0.0",
-    "aws-lambda": "^0.1.2",
     "aws-sdk": "^2.449.0",
     "clean-webpack-plugin": "^2.0.1",
     "ts-loader": "^5.4.5",
@@ -18,5 +17,6 @@
     "webpack-cli": "^3.3.1",
     "webpack-merge": "^4.2.1",
     "zip-webpack-plugin": "^3.0.0"
-  }
+  },
+  "dependencies": {}
 }

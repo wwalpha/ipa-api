@@ -12,6 +12,7 @@ module.exports = {
     filename: 'index.js',
     path: path.resolve(__dirname, '../dist'),
     publicPath: '/',
+    libraryTarget: 'commonjs',
   },
   resolve: {
     extensions: ['.ts', '.js'],
@@ -35,9 +36,7 @@ module.exports = {
     new webpack.LoaderOptionsPlugin({
       debug: false,
     }),
-    // new CleanWebpackPlugin(['dist'], {
-    //   root: path.join(__dirname, '..'),
-    // }),
+    new CleanWebpackPlugin(),
     new ZipPlugin({
       // OPTIONAL: defaults to the Webpack output path (above)
       // can be relative (to Webpack output path) or absolute
