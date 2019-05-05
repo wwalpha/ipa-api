@@ -15,5 +15,5 @@ phases:
       - npm run deploy
 artifacts:
   files:
-    - '**/*'
+    - 'api/dist/index.zip'
   name: myname-$(AWS_REGION) 

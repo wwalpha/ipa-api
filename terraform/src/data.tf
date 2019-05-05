@@ -78,8 +78,8 @@ data "aws_iam_policy_document" "policy_document_codebuild_policy" {
     ]
 
     resources = [
-      "${var.bucketArn}",
-      "${var.bucketArn}/*",
+      "${aws_s3_bucket.codepipeline_bucket.arn}",
+      "${aws_s3_bucket.codepipeline_bucket.arn}/*",
     ]
   }
 

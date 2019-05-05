@@ -1,5 +1,5 @@
 resource "aws_iam_role" "codebuild_role" {
-  name               = "ipa-codebuild"
+  name               = "ipa-codebuild-role"
   assume_role_policy = "${data.aws_iam_policy_document.policy_document_codebuild_role.json}"
 
   lifecycle {
@@ -14,7 +14,7 @@ resource "aws_iam_role_policy" "codebuild_policy" {
 }
 
 resource "aws_codebuild_project" "cb_project" {
-  name          = "ipa-project"
+  name          = "ipa-codebuild"
   build_timeout = "5"
   service_role  = "${aws_iam_role.codebuild_role.arn}"
 

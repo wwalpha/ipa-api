@@ -1,7 +1,12 @@
-# resource "aws_s3_bucket" "codepipeline_bucket" {
-#   bucket = "test-bucket"
-#   acl    = "private"
-# }
+resource "aws_s3_bucket" "codepipeline_bucket" {
+  bucket = "ipa-pipeline"
+  acl    = "private"
+
+  versioning {
+    enabled = true
+  }
+}
+
 resource "aws_iam_role" "codepipeline_role" {
   name               = "ipa-codepipeline-role"
   assume_role_policy = "${data.aws_iam_policy_document.policy_document_codepipeline_role.json}"
@@ -22,7 +27,7 @@ resource "aws_codepipeline" "codepipeline" {
   role_arn = "${aws_iam_role.codepipeline_role.arn}"
 
   artifact_store {
-    location = "${var.bucketName}"
+    location = "${aws_s3_bucket.codepipeline_bucket.bucket}"
     type     = "S3"
   }
 
@@ -41,7 +46,7 @@ resource "aws_codepipeline" "codepipeline" {
         Owner      = "wwalpha"
         Repo       = "ipa-api"
         Branch     = "master"
-        OAuthToken = "552101969af5b67309bbcbf753074bd549eca109"
+        OAuthToken = "0bb0845d65f2a4e3929c5d7810a999c2926c20b8"
       }
     }
   }
