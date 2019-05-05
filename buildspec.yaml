@@ -9,7 +9,7 @@ phases:
       - npm install  
   post_build:
     commands:
-      - aws lambda update-function-code --function-name ipa-converter --zip-file file:///./dist/index.zip
+      - npm run deploy
 artifacts:
   files:
     - '**/*'
