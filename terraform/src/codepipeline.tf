@@ -46,7 +46,7 @@ resource "aws_codepipeline" "codepipeline" {
         Owner      = "wwalpha"
         Repo       = "ipa-api"
         Branch     = "master"
-        OAuthToken = "0bb0845d65f2a4e3929c5d7810a999c2926c20b8"
+        OAuthToken = "${var.github_token}"
       }
     }
   }
