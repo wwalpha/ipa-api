@@ -16,3 +16,5 @@ phases:
 artifacts:
   files:
     - 'api/dist/index.zip'
+  name: test.zip
+  discard-paths: true
