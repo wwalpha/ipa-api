@@ -10,7 +10,7 @@ const callback = (error: any, value: any) => {
 
 // handler({ word: 'america' }, undefined, callback);
 // handler({ word: 'amenities' }, undefined, callback);
-handler({ word: 'americanization', lan: '2' }, undefined, callback);
+// handler({ word: 'americanization', lan: '2' }, undefined, callback);
 
 // əˈmɛrɪkə
 // əˈmɛrɪkə

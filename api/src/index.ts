@@ -1,29 +1,45 @@
 import { app } from './app';
+import { APIGatewayEvent, Callback } from 'aws-lambda';
 
 // イベント入口
-export const handler = (event: Request, _: any, callback: Callback<Response>) => {
+export const handler = (event: APIGatewayEvent, _: any, callback: Callback<Response>) => {
   // イベントログ
   console.log(event);
 
   app(event)
-    .then((response: Response) => {
+    .then((result: Result) => {
       // 終了ログ
-      console.log(response);
-      callback(null, response);
+      console.log(result);
+      callback(null, {
+        statusCode: 200,
+        isBase64Encoded: false,
+        body: JSON.stringify(result),
+      });
     })
     .catch((err) => {
       // エラーログ
       console.log(err);
-      callback(err, {} as Response);
+      callback(err, {
+        statusCode: 502,
+      } as Response);
     });
 };
 
-export type Callback<TResult = any> = (error?: Error | null | string, result?: TResult) => void;
-
 export interface Response {
+  statusCode: number;
+  headers?: {
+    [key: string]: string;
+  },
+  isBase64Encoded: boolean;
+  body?: string;
 }
 
-export interface Request {
+export interface Result {
+  word: string
+  pronounce?: string
+}
+
+export interface QueryParams {
   word: string
   lan?: string
 }
@@ -37,4 +53,3 @@ export interface SymbolItem {
   id: string;
   ipa: string;
 }
-

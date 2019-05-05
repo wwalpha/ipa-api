@@ -1,26 +1,39 @@
 import { DynamoDB, AWSError, Lambda } from "aws-sdk";
-import { Request, SymbolItem, WordItem } from './index';
+import { SymbolItem, WordItem, QueryParams, Result } from './index';
 import { PromiseResult } from "aws-sdk/lib/request";
+import { APIGatewayEvent } from "aws-lambda";
 
 let dbClient: DynamoDB.DocumentClient;
 let symbolItems: SymbolItem[];
 
-export const app = async (event: Request): Promise<any> => {
+export const app = async (event: APIGatewayEvent): Promise<Result> => {
+  if (!event.queryStringParameters) {
+    return undefined as unknown as Result;
+  }
+
   let word: PromiseResult<DynamoDB.GetItemOutput, AWSError>;
   const americaTable = process.env.AmericaTable as string;
   const englandTable = process.env.EnglandTable as string;
+
+  const params = event.queryStringParameters as unknown as QueryParams;
 
   // 初期化
   await init();
 
   // America
-  if (event.lan && event.lan === '2') {
-    word = await getWord(dbClient, americaTable, event.word);
+  if (params.lan && params.lan === '2') {
+    word = await getWord(dbClient, americaTable, params.word);
   } else {
-    word = await getWord(dbClient, englandTable, event.word);
+    word = await getWord(dbClient, englandTable, params.word);
   }
+
   // 存在しない場合、終了する
-  if (!word.Item) return;
+  if (!word.Item) {
+    return {
+      word: params.word,
+      pronounce: undefined,
+    }
+  }
 
   // 単語のIPA情報
   const item = word.Item as unknown as WordItem;
@@ -45,7 +58,10 @@ export const app = async (event: Request): Promise<any> => {
     result.push(target.ipa);
   })
 
-  return result.join('');
+  return {
+    word: params.word,
+    pronounce: result.join(''),
+  }
 }
 
 /**
