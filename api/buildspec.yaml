@@ -17,4 +17,5 @@ artifacts:
   # base-directory: 'api/dist'
   files:
     - 'api/dist/index.zip'
+    - 'api/dist/index.js'
   discard-paths: true
