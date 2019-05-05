@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "init": "terraform init src",
+    "init:src": "terraform init src",
     "plan": "terraform plan -var-file envs/terraform.tfvars src",
     "app": "terraform apply -var-file envs/terraform.tfvars -auto-approve src",
     "destroy": "terraform destroy -var-file envs/terraform.tfvars src"
