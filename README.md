@@ -37,4 +37,13 @@ DynamoDB | IPA辞書、発音記号の管理
 ### ライブラリ
 |ライブラリ|用途|
 |---|---|
-Webpack |
+Webpack | JSライブラリをコンパイルする
+webpack-cli | webpackのコマンドツール
+webpack-merge | webpackの複数設定ファイルをマージする
+clean-webpack-plugin| webpackのプラグイン、ビルドする前に出力フォルダを削除する
+copy-webpack-plugin| webpackのプラグイン、ビルドする前に出力フォルダに静的ファイルをコピーする
+zip-webpack-plugin | webpackのプラグイン、ビルド成功後、出力フォルダにあるファイルをZip化する
+aws-sdk | aws development toolkit
+typescript | Javascriptの型付け言語
+ts-loader　| webpack用ライブラリ、typescriptから直接コンパイルできる
+
