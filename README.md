@@ -39,7 +39,7 @@ DynamoDB | IPA辞書、発音記号の管理
 ### ライブラリ
 |ライブラリ|用途|
 |---|---|
-Webpack | JSライブラリをコンパイルする
+webpack | JSライブラリをビルドする
 webpack-cli | webpackのコマンドツール
 webpack-merge | webpackの複数設定ファイルをマージする
 clean-webpack-plugin| webpackのプラグイン、ビルドする前に出力フォルダを削除する
