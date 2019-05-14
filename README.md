@@ -1,4 +1,5 @@
 # 発音記号(IPA)変換API
+[CMU Pronouncing Dictionary](http://www.speech.cs.cmu.edu/cgi-bin/cmudict)の辞書を元に、変換処理を行います。
 
 ## 使い方
 APIは**1日200回**のアクセス制限があります。
@@ -17,7 +18,9 @@ $ curl -H 'x-api-key:xxxxxxxxxx' https://m1rb1oo72l.execute-api.ap-northeast-1.a
 
 ## インフラアキーテクチャ
 
-### 初期設定
+### インストール
+
+### 初期データ投入
 ....
 
 ### 使用する技術
