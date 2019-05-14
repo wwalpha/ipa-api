@@ -23,7 +23,7 @@ $ curl -H 'x-api-key:xxxxxxxxxx' https://m1rb1oo72l.execute-api.ap-northeast-1.a
 ### 初期データ投入
 ....
 
-### 使用する技術
+### サービス一覧
 |サービス|用途|
 |---|---|
 API Gateway | REST API管理、アクセスログ、アクセス制限など
