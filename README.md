@@ -18,10 +18,34 @@ $ curl -H 'x-api-key:xxxxxxxxxx' https://m1rb1oo72l.execute-api.ap-northeast-1.a
 
 ## インフラアキーテクチャ
 
-### インストール
+### 事前準備
+* [Terraform](https://www.terraform.io/)
+* [Node.js](https://nodejs.org/ja/)
+* [TypeScript](https://www.typescriptlang.org/)
 
-### 初期データ投入
-....
+```
+$ npm -g install ts-node
+```
+
+### インストール
+```
+$ cd terraform
+$ terraform init:src
+$ terraform app
+```
+
+### アンインストール
+```
+$ cd terraform
+$ terraform destroy
+```
+
+### 辞書データ投入
+```
+$ cd terraform
+$ cd dist 
+$ ts-node regist
+```
 
 ### サービス一覧
 |サービス|用途|
