@@ -33,6 +33,8 @@ DynamoDB | IPA辞書、発音記号の管理
 ## アプリ構成
 
 ### 言語
+* [Node.js](https://nodejs.org/ja/)
+* [TypeScript](https://www.typescriptlang.org/)
 
 ### ライブラリ
 |ライブラリ|用途|
